@@ -10,12 +10,12 @@ export const ContractsAPI = {
 
     return resp.data;
   },
-  addContact: async (contactData) => {
+  addContract: async (contactData) => {
     const resp = await contractsHost.post("contracts", contactData);
 
     return resp.data;
   },
-  deleteContact: async (id) => {
+  deleteContract: async (id) => {
     const resp = await contractsHost.delete("contracts/" + id);
 
     return resp.data;
