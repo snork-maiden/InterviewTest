@@ -9,6 +9,7 @@
           :items="contracts"
           :loading="contractsLoading"
           :hide-default-footer="hidePagination"
+          hide-default-header
           :footer-props="{
             'items-per-page-text': 'Элементов на странице:',
             'page-text': computedPaginationText,

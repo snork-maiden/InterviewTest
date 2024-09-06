@@ -83,10 +83,10 @@ export default {
       if (this.isFormValid) {
         const description = `Договор ${this.contractName} №${this.contractNumber}`;
         const newContract = {
-          number: this.contractNumber,
+          number: +this.contractNumber,
           description,
-          firstPayment: this.firstPayment,
-          lastPayment: this.lastPayment,
+          firstPayment: +this.firstPayment,
+          lastPayment: +this.lastPayment,
         };
 
         this.$emit("submit", newContract);
