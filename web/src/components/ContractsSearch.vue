@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <v-col align="center">
-      <h3 class="mb-4">Заключенные договоры</h3>
+      <h3 class="mb-4 pt-5">Заключенные договоры</h3>
       <add-contract-form @submit="(newContract) => addContract(newContract)" />
-      <v-card>
+      <v-card class="table">
         <v-data-table
           :headers="headers"
           :items="contracts"
@@ -120,4 +120,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.table {
+  max-width: 1300px;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="isFormValid" @submit.prevent="submitForm">
+  <v-form ref="form" v-model="isFormValid" @submit.prevent="submitForm" class="form">
     <v-container mb-6>
       <v-row>
         <v-col cols="12" sm="auto" class="font-weight-bold" alignSelf="center">
@@ -108,4 +108,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.form {
+  max-width: 800px;
+}
+</style>
