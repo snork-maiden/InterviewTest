@@ -10,8 +10,12 @@
           :loading="contractsLoading"
           :hide-default-footer="hidePagination"
           :footer-props="{
-            'items-per-page-options': [contracts.length],
+            'items-per-page-text': 'Элементов на странице:',
+            'page-text': computedPaginationText,
+            'items-per-page-options': [5, 10, 20],
           }"
+          :options.sync="tableOptions"
+          @pagination="onPagination"
         >
           <template #item.payment="{ item }">
             <span>{{ item.firstPayment + item.lastPayment }}</span>
@@ -20,7 +24,6 @@
           <template #item.actions="{ item }">
             <v-btn color="red" @click="deleteContract(item.id)" icon>
               <v-icon>mdi-delete</v-icon>
-              <!-- Material design delete icon -->
             </v-btn>
           </template>
         </v-data-table>
@@ -28,6 +31,7 @@
     </v-col>
   </v-container>
 </template>
+
 <script>
 import { ContractsAPI } from "@/api/contracts-api";
 import AddContractForm from "./AddContractForm.vue";
@@ -38,6 +42,10 @@ export default {
     return {
       contractsLoading: false,
       contracts: [],
+      tableOptions: {
+        page: 1,
+        itemsPerPage: 5,
+      },
       headers: [
         { text: "Номер", value: "number" },
         { text: "Описание", value: "description" },
@@ -74,7 +82,6 @@ export default {
     async addContract(newContract) {
       newContract.id = this.nextId;
 
-      console.log(newContract);
       try {
         await ContractsAPI.addContract(newContract);
         this.contracts.push(newContract);
@@ -82,10 +89,24 @@ export default {
         console.error(e);
       }
     },
+    onPagination(pagination) {
+      this.tableOptions.page = pagination.page;
+      this.tableOptions.itemsPerPage = pagination.itemsPerPage;
+    },
   },
   computed: {
     hidePagination() {
       return this.contracts.length < 5;
+    },
+    computedPaginationText() {
+      const start =
+        (this.tableOptions.page - 1) * this.tableOptions.itemsPerPage + 1;
+      const end = Math.min(
+        this.tableOptions.page * this.tableOptions.itemsPerPage,
+        this.contracts.length
+      );
+      const total = this.contracts.length;
+      return `${start}-${end} из ${total}`;
     },
   },
   nextId() {
@@ -97,4 +118,5 @@ export default {
   },
 };
 </script>
+
 <style scoped></style>
