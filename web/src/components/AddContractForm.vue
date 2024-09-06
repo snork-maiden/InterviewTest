@@ -2,26 +2,25 @@
   <v-form ref="form" v-model="isFormValid" @submit.prevent="submitForm">
     <v-container mb-6>
       <v-row>
-        <v-col cols="12" sm="auto">
-          <span>Договор</span>
+        <v-col cols="12" sm="auto" class="font-weight-bold" alignSelf="center">
+          <span class="font-weight-bold">Договор</span>
         </v-col>
 
-        <v-col cols="12" sm="5">
+        <v-col cols="12" sm="5" xs="12">
           <v-text-field
             v-model="contractName"
             label="Название договора"
-            placeholder="на оказание услуг страхования"
             outlined
             dense
             :rules="[requiredRule]"
           />
         </v-col>
 
-        <v-col cols="12" sm="auto">
+        <v-col class="font-weight-bold" alignSelf="center">
           <span>№</span>
         </v-col>
 
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="4" xs="12">
           <v-text-field
             v-model="contractNumber"
             label="Номер договора"
@@ -33,8 +32,8 @@
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="12" sm="4">
+      <v-row class="my-0 py-0">
+        <v-col cols="12" sm="4" xs="12">
           <v-text-field
             v-model="firstPayment"
             label="Первый платёж"
@@ -44,7 +43,7 @@
             :rules="[requiredRule, numberRule]"
           />
         </v-col>
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="4" xs="12">
           <v-text-field
             v-model="lastPayment"
             label="Последний платёж"
@@ -57,9 +56,11 @@
       </v-row>
 
       <v-row>
-        <v-btn :disabled="!isFormValid" color="primary" @click="submitForm"
-          >Добавить</v-btn
-        >
+        <v-col cols="12" class="text-center">
+          <v-btn :disabled="!isFormValid" color="primary" @click="submitForm">
+            Добавить
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-form>
@@ -70,11 +71,11 @@ export default {
   name: "ContractForm",
   data() {
     return {
-      contractName: "на оказание услуг страхования", 
+      contractName: "на оказание услуг страхования",
       contractNumber: null,
       firstPayment: null,
       lastPayment: null,
-      isFormValid: false, 
+      isFormValid: false,
     };
   },
   methods: {
@@ -83,20 +84,17 @@ export default {
         const description = `Договор ${this.contractName} №${this.contractNumber}`;
         const newContract = {
           number: this.contractNumber,
-          description: description,
+          description,
           firstPayment: this.firstPayment,
           lastPayment: this.lastPayment,
         };
 
         this.$emit("submit", newContract);
-        this.resetForm();
+        this.$refs.form.reset();
+        this.$nextTick(() => {
+          this.contractName = "на оказание услуг страхования";
+        });
       }
-    },
-    resetForm() {
-      this.contractName = "на оказание услуг страхования";
-      this.contractNumber = null;
-      this.firstPayment = null;
-      this.lastPayment = null;
     },
   },
   computed: {
